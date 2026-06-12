@@ -1,0 +1,39 @@
+<!doctype html><html lang="ja"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>結果ページ | ウヨパヨ診断</title>
+<meta name="description" content="type または slug パラメータで指定した診断結果を表示します。">
+<meta property="og:type" content="website">
+<meta property="og:title" content="結果ページ | ウヨパヨ診断">
+<meta property="og:description" content="type または slug パラメータで指定した診断結果を表示します。">
+<meta property="og:url" content="" data-og-path="result.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="結果ページ | ウヨパヨ診断">
+<meta name="twitter:description" content="type または slug パラメータで指定した診断結果を表示します。">
+<link rel="stylesheet" href="assets/css/style.css">
+</head><body><header class="site-header">
+  <a class="brand" href="index.html"><span class="logo-mark">診</span><span class="brand-text"><strong>ウヨパヨ診断</strong><span>economic lenses, not tribal labels</span></span></a>
+  <nav class="nav"><a href="index.html">診断</a><a href="results.html">全タイプ</a><a href="methodology.html">設計</a></nav>
+</header>
+<main class="container" data-direct-result-page>
+  <section class="panel"><div class="panel-inner"><h1>結果を読み込み中</h1><p class="lead">URLの <code>type</code> または <code>slug</code> を見ています。</p></div></section>
+</main>
+<footer class="footer">
+  <p>静的HTML/CSS/JSだけで動きます。画像もサーバーもDBもありません。身軽です。人類のWeb制作にしては珍しく。</p>
+  <p><a href="methodology.html">診断モデルと参考文献</a> / <a href="results.html">全診断タイプ</a></p>
+</footer>
+<script src="assets/js/data.js"></script>
+<script src="assets/js/core.js"></script>
+<script>
+(function(){
+  const root = document.querySelector('[data-direct-result-page]');
+  if(!root || !window.UYOPAYO) return;
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('type') || params.get('slug') || params.get('r');
+  const result = slug ? window.UYOPAYO.bySlug(slug) : null;
+  if(!result){ root.innerHTML = '<section class="panel"><div class="panel-inner"><h1>結果タイプが見つかりません</h1><p class="lead"><code>result.html?type=friedman-monetarist</code> のように指定してください。</p><p><a class="btn" href="results.html">全タイプを見る</a></p></div></section>'; return; }
+  const scores = window.UYOPAYO.scoreFromQuery(params) || result.centroid;
+  window.UYOPAYO.renderResult(root, result, scores, {assetPrefix:'assets/', homeHref:'index.html', resultBase:'results/'});
+})();
+</script>
+</body></html>
